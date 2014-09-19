@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!--（1） 基于Url的控制器，比较简单的控制器 -->
+	<!-- <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="add_emp.test">addEmpController</prop>	UrlFilenameViewController
+				<prop key="add.test">addEmpSuccController</prop>
+				<prop key="start.test">startController</prop>
+				<prop key="to_add.test">addEmpController</prop>
+				<prop key="add_emp.test">addEmpController</prop>
+			</props>
+		</property>
+	</bean> -->
+	
+	<!--（2） <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" /> -->
+	
+	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
+
+
+	
+
+
+	<bean id="startController" class="test.StartController"></bean>
+	
+	<!--（1）参数化的ViewController，我们不需要自己建立，只需要直接使用就可以了 -->
+	<!-- <bean id="loginController" class="org.springframework.web.servlet.mvc.ParameterizableViewController"> 
+		<property name="viewName" value="login"/> </bean> -->
+
+
+	<!--（2） 使用UrlFilenameViewController，就不需要配置视图名这个过程。 -->
+	<!-- <bean id="addEmpController"
+		class="org.springframework.web.servlet.mvc.UrlFilenameViewController"></bean> -->
+
+	<!--（3） 指定command对象是一个什么样的类，此处为员工类test.Emp -->
+	<!-- <bean id="addEmpController" class="test.EmpFormController"> -->
+	<bean id="empFormController" class="test.EmpFormController">
+		<property name="commandClass" value="test.Emp" />
+		<property name="formView" value="add_emp" />
+		<property name="successView" value="success" />
+	</bean>
+	
+	<!--（4） 通过MultiController控制器 -->
+	<!-- <bean id="addEmpController" class="test.EmpMultiController">
+		<property name="commandClass" value="test.Emp" />
+		<property name="methodNameResolver">
+			<bean class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+				<property name="paramName" value="func" />
+			</bean>
+		</property>
+	</bean> -->
+	
+
+
+	<!--基于URL的视图解析器， 从逻辑视图名称到真正视图上面的映射 -->
+	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+</beans>
+
